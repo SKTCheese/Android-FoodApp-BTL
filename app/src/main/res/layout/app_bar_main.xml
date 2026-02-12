@@ -17,7 +17,7 @@
             app:titleTextColor="@android:color/white"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- NƠI FRAGMENT ĐƯỢC HIỂN THỊ -->
+    <!-- nơi fragment được hiển thị -->
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"

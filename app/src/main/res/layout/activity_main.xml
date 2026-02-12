@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- ===== CONTENT (MÀN HÌNH CHÍNH) ===== -->
+    <!-- content - màn hình chính ===== -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,7 +19,7 @@
             android:background="@color/purple_500"
             app:titleTextColor="@android:color/white" />
 
-        <!-- NAV HOST -->
+        <!-- nav -->
         <fragment
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -31,7 +31,7 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <!-- ===== DRAWER (MENU TRÁI) ===== -->
+    <!-- ===== drawer - menu bên trái ===== -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -39,7 +39,7 @@
         android:orientation="vertical"
         android:background="@color/gray">
 
-        <!-- MENU + HEADER -->
+        <!-- menu + header -->
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             app:headerLayout="@layout/nav_header_main"
             app:menu="@menu/activity_main_drawer" />
 
-        <!-- LOGOUT BUTTON -->
+        <!-- button logout -->
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
