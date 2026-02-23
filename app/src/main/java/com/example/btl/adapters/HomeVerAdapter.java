@@ -1,4 +1,4 @@
-package com.example.btl.home;
+package com.example.btl.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
