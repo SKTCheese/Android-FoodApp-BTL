@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/nav_daily_meal"
-        android:name="com.example.btl.gallery.DailyMealFragment"
+        android:name="com.example.btl.dailymeal.DailyMealFragment"
         android:label="Daily Meal"
         tools:layout="@layout/daily_meal_fragment" />
 
     <fragment
         android:id="@+id/nav_favorite"
-        android:name="com.example.btl.slideshow.FavoriteFragment"
+        android:name="com.example.btl.favorite.FavoriteFragment"
         android:label="Favorite"
         tools:layout="@layout/favorite_fragment" />
 

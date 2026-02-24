@@ -1,4 +1,4 @@
-package com.example.btl.slideshow;
+package com.example.btl.favorite;
 
 import android.os.Bundle;
 
