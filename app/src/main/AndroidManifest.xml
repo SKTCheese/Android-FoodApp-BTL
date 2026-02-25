@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BTL">
         <activity
+            android:name=".DetailedDailyMealActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
         <activity
@@ -19,9 +22,7 @@
             android:exported="false" />
         <activity
             android:name=".WellcomeActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -30,7 +31,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 

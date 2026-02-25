@@ -5,22 +5,15 @@ public class DailyMealModel {
     int image;
     String name;
     String discount;
-    String type;
     String description;
+    String type;
 
-    public DailyMealModel(int image, String name, String discount, String description) {
+    public DailyMealModel(int image, String name, String discount, String description, String type) {
         this.image = image;
         this.name = name;
         this.discount = discount;
         this.description = description;
-    }
-
-    public DailyMealModel(int image, String name, String discount, String type, String description) {
-        this.image = image;
-        this.name = name;
-        this.discount = discount;
         this.type = type;
-        this.description = description;
     }
 
     public int getImage() {
