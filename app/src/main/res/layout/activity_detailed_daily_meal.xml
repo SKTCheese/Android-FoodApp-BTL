@@ -37,7 +37,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- 🔥 RecyclerView trực tiếp, KHÔNG NestedScrollView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/detailed_rec"
         android:layout_width="match_parent"

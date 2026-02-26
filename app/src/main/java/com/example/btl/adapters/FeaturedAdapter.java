@@ -27,7 +27,7 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
                 LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.featured_hot_item, parent, false));
+                        .inflate(R.layout.featured_hor_item, parent, false));
     }
 
     @Override
