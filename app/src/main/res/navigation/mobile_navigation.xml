@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/nav_my_cart"
-        android:name="com.example.btl.myCartFragment"
+        android:name="com.example.btl.home.MyCartFragment"
         android:label="My Cart"
         tools:layout="@layout/fragment_my_cart" />
 
