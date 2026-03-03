@@ -6,6 +6,9 @@ public class CartModel {
     String price;
     String rating;
 
+    // Required for JSON (Gson) parsing / reflection
+    public CartModel() {}
+
     public CartModel(int image, String name, String price, String rating) {
         this.image = image;
         this.name = name;

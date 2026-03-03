@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.btl.R;
 import com.example.btl.adapters.CartAdapter;
 import com.example.btl.models.CartModel;
+import com.example.btl.storage.CartStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +37,21 @@ public class MyCartFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         list = new ArrayList<>();
-
-        list.add(new CartModel(R.drawable.s1, "Order 1", "30", "4.3"));
-        list.add(new CartModel(R.drawable.s2, "Order 1", "$20", "4.6"));
-        list.add(new CartModel(R.drawable.fav1, "Order 1", "40", "4.8"));
-        list.add(new CartModel(R.drawable.s1, "Order 1", "$30", "4.3"));
-        list.add(new CartModel(R.drawable.s2, "Order 1", "$20", "4.9"));
-        list.add(new CartModel(R.drawable.fav1, "Order 1", "40", "5.0"));
+        list.addAll(CartStorage.getCart(requireContext()));
 
         cartAdapter = new CartAdapter(list);
         recyclerView.setAdapter(cartAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (list != null && cartAdapter != null && getContext() != null) {
+            list.clear();
+            list.addAll(CartStorage.getCart(requireContext()));
+            cartAdapter.notifyDataSetChanged();
+        }
     }
 }

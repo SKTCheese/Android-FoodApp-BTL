@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
+import com.example.btl.models.CartModel;
 import com.example.btl.models.HomeVerModel;
+import com.example.btl.storage.CartStorage;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
@@ -62,6 +64,10 @@ public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHold
                 sheetView.findViewById(R.id.add_to_cart).setOnClickListener(new View.OnClickListener(){
                     @Override
                         public void onClick(View v){
+                        CartStorage.addToCart(
+                                context,
+                                new CartModel(mImage, mName, mPrice, mRating)
+                        );
                         Toast.makeText(context, "Added to cart",Toast.LENGTH_SHORT).show();
                         bottomSheetDialog.dismiss();
                     }
