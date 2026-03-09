@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,27 +61,47 @@ public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHold
             public void onClick(View v) {
                 bottomSheetDialog = new BottomSheetDialog(context,R.style.BottomSheetTheme);
 
-                View sheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_layout,null);
-                sheetView.findViewById(R.id.add_to_cart).setOnClickListener(new View.OnClickListener(){
-                    @Override
-                        public void onClick(View v){
-                        CartStorage.addToCart(
-                                context,
-                                new CartModel(mImage, mName, mPrice, mRating)
-                        );
-                        Toast.makeText(context, "Added to cart",Toast.LENGTH_SHORT).show();
-                        bottomSheetDialog.dismiss();
-                    }
-                });
+                View sheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_layout, null);
+
                 ImageView bottomImg = sheetView.findViewById(R.id.bottom_img);
                 TextView bottomName = sheetView.findViewById(R.id.bottom_name);
                 TextView bottomPrice = sheetView.findViewById(R.id.bottom_price);
                 TextView bottomRating = sheetView.findViewById(R.id.bottom_rating);
+                TextView quantityText = sheetView.findViewById(R.id.bottom_sheet_quantity);
+                ImageButton btnMinus = sheetView.findViewById(R.id.bottom_sheet_btn_minus);
+                ImageButton btnPlus = sheetView.findViewById(R.id.bottom_sheet_btn_plus);
 
                 bottomName.setText(mName);
                 bottomPrice.setText(mPrice);
                 bottomRating.setText(mRating);
                 bottomImg.setImageResource(mImage);
+                quantityText.setText("1");
+
+                btnMinus.setOnClickListener(btnView -> {
+                    int qty = Integer.parseInt(quantityText.getText().toString());
+                    if (qty > 1) {
+                        qty--;
+                        quantityText.setText(String.valueOf(qty));
+                    }
+                });
+                btnPlus.setOnClickListener(btnView -> {
+                    int qty = Integer.parseInt(quantityText.getText().toString());
+                    if (qty < 999) {
+                        qty++;
+                        quantityText.setText(String.valueOf(qty));
+                    }
+                });
+
+                sheetView.findViewById(R.id.add_to_cart).setOnClickListener(btnView -> {
+                    int qty = Integer.parseInt(quantityText.getText().toString());
+                    if (qty <= 0) qty = 1;
+                    CartStorage.addToCart(
+                            context,
+                            new CartModel(mImage, mName, mPrice, mRating, qty)
+                    );
+                    Toast.makeText(context, "Added to cart", Toast.LENGTH_SHORT).show();
+                    bottomSheetDialog.dismiss();
+                });
 
                 bottomSheetDialog.setContentView(sheetView);
                 bottomSheetDialog.show();
