@@ -38,9 +38,51 @@ public final class CartStorage {
         }
     }
 
+    /**
+     * Thêm sản phẩm vào giỏ. Nếu đã có cùng tên + giá thì cộng thêm số lượng, không tạo item mới.
+     */
     public static void addToCart(@NonNull Context context, @NonNull CartModel item) {
         List<CartModel> list = getCart(context);
+        int qtyToAdd = item.getQuantity() <= 0 ? 1 : item.getQuantity();
+
+        for (CartModel existing : list) {
+            if (isSameProduct(existing, item)) {
+                existing.setQuantity(existing.getQuantity() + qtyToAdd);
+                saveCart(context, list);
+                return;
+            }
+        }
+        item.setQuantity(qtyToAdd);
         list.add(item);
+        saveCart(context, list);
+    }
+
+    /** Coi hai item là cùng một sản phẩm nếu trùng tên và giá. */
+    private static boolean isSameProduct(@NonNull CartModel a, @NonNull CartModel b) {
+        if (a.getName() == null && b.getName() != null) return false;
+        if (a.getName() != null && !a.getName().equals(b.getName())) return false;
+        if (a.getPrice() == null && b.getPrice() != null) return false;
+        if (a.getPrice() != null && !a.getPrice().equals(b.getPrice())) return false;
+        return true;
+    }
+
+    /** Cập nhật số lượng tại vị trí index. Nếu newQuantity <= 0 thì xóa item đó. */
+    public static void updateQuantity(@NonNull Context context, int index, int newQuantity) {
+        List<CartModel> list = getCart(context);
+        if (index < 0 || index >= list.size()) return;
+        if (newQuantity <= 0) {
+            list.remove(index);
+        } else {
+            list.get(index).setQuantity(newQuantity);
+        }
+        saveCart(context, list);
+    }
+
+    /** Xóa item tại vị trí index khỏi giỏ. */
+    public static void removeItem(@NonNull Context context, int index) {
+        List<CartModel> list = getCart(context);
+        if (index < 0 || index >= list.size()) return;
+        list.remove(index);
         saveCart(context, list);
     }
 
@@ -54,5 +96,7 @@ public final class CartStorage {
         prefs.edit().putString(KEY_CART_JSON, gson.toJson(list, cartListType)).apply();
     }
 }
+
+
 
 

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MyCartFragment extends Fragment {
+public class MyCartFragment extends Fragment implements CartAdapter.OnCartItemListener {
 
     List<CartModel> list;
     CartAdapter cartAdapter;
@@ -48,10 +48,27 @@ public class MyCartFragment extends Fragment {
         list.addAll(CartStorage.getCart(requireContext()));
         updateTotal();
 
-        cartAdapter = new CartAdapter(list);
+        cartAdapter = new CartAdapter(list, this);
         recyclerView.setAdapter(cartAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onQuantityChanged(int position, int newQuantity) {
+        CartStorage.updateQuantity(requireContext(), position, newQuantity);
+        list.clear();
+        list.addAll(CartStorage.getCart(requireContext()));
+        cartAdapter.notifyDataSetChanged();
+        updateTotal();
+    }
+
+    @Override
+    public void onRemove(int position) {
+        CartStorage.removeItem(requireContext(), position);
+        list.remove(position);
+        cartAdapter.notifyItemRemoved(position);
+        updateTotal();
     }
 
     @Override
@@ -71,7 +88,8 @@ public class MyCartFragment extends Fragment {
         double total = 0d;
         for (CartModel item : list) {
             if (item == null) continue;
-            total += parsePrice(item.getPrice());
+            double unitPrice = parsePrice(item.getPrice());
+            total += unitPrice * item.getQuantity();
         }
         totalText.setText("$" + formatMoney(total));
     }

@@ -5,15 +5,27 @@ public class CartModel {
     String name;
     String price;
     String rating;
+    int quantity;
 
     // Required for JSON (Gson) parsing / reflection
-    public CartModel() {}
+    public CartModel() {
+        this.quantity = 1;
+    }
 
     public CartModel(int image, String name, String price, String rating) {
         this.image = image;
         this.name = name;
         this.price = price;
         this.rating = rating;
+        this.quantity = 1;
+    }
+
+    public CartModel(int image, String name, String price, String rating, int quantity) {
+        this.image = image;
+        this.name = name;
+        this.price = price;
+        this.rating = rating;
+        this.quantity = quantity <= 0 ? 1 : quantity;
     }
 
     public int getImage() {
@@ -46,6 +58,14 @@ public class CartModel {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    public int getQuantity() {
+        return quantity <= 0 ? 1 : quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity <= 0 ? 1 : quantity;
     }
 }
 
