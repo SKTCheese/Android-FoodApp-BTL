@@ -1,5 +1,7 @@
 package com.example.btl.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
     OrderAdapter cartAdapter;
     RecyclerView recyclerView;
     TextView totalText;
+    TextView tvSelectedTable;
 
     private static final Pattern PRICE_PATTERN = Pattern.compile("(\\d+(?:\\.\\d+)?)");
 
@@ -43,6 +46,12 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
         recyclerView = view.findViewById(R.id.cart_rec);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         totalText = view.findViewById(R.id.textView3);
+        tvSelectedTable = view.findViewById(R.id.tvSelectedTable);
+
+        // Hiển thị mã bàn từ SharedPreferences
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("app_data", Context.MODE_PRIVATE);
+        String tableCode = sharedPreferences.getString("selected_table", "B01");
+        tvSelectedTable.setText("Table: " + tableCode);
 
         list = new ArrayList<>();
         list.addAll(CartStorage.getCart(requireContext()));
@@ -79,6 +88,13 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
             list.addAll(CartStorage.getCart(requireContext()));
             cartAdapter.notifyDataSetChanged();
             updateTotal();
+
+            // Cập nhật lại mã bàn khi quay lại fragment
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("app_data", Context.MODE_PRIVATE);
+            String tableCode = sharedPreferences.getString("selected_table", "B01");
+            if (tvSelectedTable != null) {
+                tvSelectedTable.setText("Table: " + tableCode);
+            }
         }
     }
 

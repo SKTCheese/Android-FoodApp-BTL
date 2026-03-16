@@ -26,8 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
         String tableCode = getIntent().getStringExtra("tableCode");
         if (tableCode != null && !tableCode.isEmpty()) {
+            getSharedPreferences("app_data", MODE_PRIVATE)
+                    .edit()
+                    .putString("selected_table", tableCode)
+                    .apply();
+
             Toast.makeText(this, "Selected table: " + tableCode, Toast.LENGTH_SHORT).show();
         }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
