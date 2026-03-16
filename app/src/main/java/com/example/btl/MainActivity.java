@@ -1,6 +1,8 @@
 package com.example.btl;
 
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -22,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String tableCode = getIntent().getStringExtra("tableCode");
+        if (tableCode != null && !tableCode.isEmpty()) {
+            Toast.makeText(this, "Selected table: " + tableCode, Toast.LENGTH_SHORT).show();
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -42,9 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(navView, navController);
 
-        // đóng DRAWER
         navView.setNavigationItemSelectedListener(item -> {
-
             boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
 
             if (handled) {
@@ -54,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
             return handled;
         });
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {
