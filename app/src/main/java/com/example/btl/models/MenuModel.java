@@ -1,6 +1,6 @@
 package com.example.btl.models;
 
-public class DailyMealModel {
+public class MenuModel {
 
     int image;
     String name;
@@ -8,7 +8,7 @@ public class DailyMealModel {
     String description;
     String type;
 
-    public DailyMealModel(int image, String name, String discount, String description, String type) {
+    public MenuModel(int image, String name, String discount, String description, String type) {
         this.image = image;
         this.name = name;
         this.discount = discount;

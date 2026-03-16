@@ -10,14 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
-import com.example.btl.models.DetailedDailyModel;
+import com.example.btl.models.DetailedMenuModel;
 import java.util.List;
 
-public class DetailedDailyAdapter extends RecyclerView.Adapter<DetailedDailyAdapter.ViewHolder> {
+public class DetailedMenuAdapter extends RecyclerView.Adapter<DetailedMenuAdapter.ViewHolder> {
 
-    List<DetailedDailyModel> list;
+    List<DetailedMenuModel> list;
 
-    public DetailedDailyAdapter(List<DetailedDailyModel> list) {
+    public DetailedMenuAdapter(List<DetailedMenuModel> list) {
         this.list = list;
     }
 

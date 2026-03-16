@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
-import com.example.btl.adapters.CartAdapter;
-import com.example.btl.models.CartModel;
+import com.example.btl.adapters.OrderAdapter;
+import com.example.btl.models.OrderModel;
 import com.example.btl.storage.CartStorage;
 
 import java.text.DecimalFormat;
@@ -21,16 +21,16 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MyCartFragment extends Fragment implements CartAdapter.OnCartItemListener {
+public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCartItemListener {
 
-    List<CartModel> list;
-    CartAdapter cartAdapter;
+    List<OrderModel> list;
+    OrderAdapter cartAdapter;
     RecyclerView recyclerView;
     TextView totalText;
 
     private static final Pattern PRICE_PATTERN = Pattern.compile("(\\d+(?:\\.\\d+)?)");
 
-    public MyCartFragment() {
+    public CurrentOrderFragment() {
         // Required empty public constructor
     }
 
@@ -48,7 +48,7 @@ public class MyCartFragment extends Fragment implements CartAdapter.OnCartItemLi
         list.addAll(CartStorage.getCart(requireContext()));
         updateTotal();
 
-        cartAdapter = new CartAdapter(list, this);
+        cartAdapter = new OrderAdapter(list, this);
         recyclerView.setAdapter(cartAdapter);
 
         return view;
@@ -86,7 +86,7 @@ public class MyCartFragment extends Fragment implements CartAdapter.OnCartItemLi
         if (totalText == null || list == null) return;
 
         double total = 0d;
-        for (CartModel item : list) {
+        for (OrderModel item : list) {
             if (item == null) continue;
             double unitPrice = parsePrice(item.getPrice());
             total += unitPrice * item.getQuantity();

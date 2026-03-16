@@ -1,6 +1,6 @@
 package com.example.btl.models;
 
-public class CartModel {
+public class OrderModel {
     int image;
     String name;
     String price;
@@ -8,11 +8,11 @@ public class CartModel {
     int quantity;
 
     // Required for JSON (Gson) parsing / reflection
-    public CartModel() {
+    public OrderModel() {
         this.quantity = 1;
     }
 
-    public CartModel(int image, String name, String price, String rating) {
+    public OrderModel(int image, String name, String price, String rating) {
         this.image = image;
         this.name = name;
         this.price = price;
@@ -20,7 +20,7 @@ public class CartModel {
         this.quantity = 1;
     }
 
-    public CartModel(int image, String name, String price, String rating, int quantity) {
+    public OrderModel(int image, String name, String price, String rating, int quantity) {
         this.image = image;
         this.name = name;
         this.price = price;

@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
-import com.example.btl.models.CartModel;
+import com.example.btl.models.OrderModel;
 import com.example.btl.models.HomeVerModel;
 import com.example.btl.storage.CartStorage;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -97,7 +97,7 @@ public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHold
                     if (qty <= 0) qty = 1;
                     CartStorage.addToCart(
                             context,
-                            new CartModel(mImage, mName, mPrice, mRating, qty)
+                            new OrderModel(mImage, mName, mPrice, mRating, qty)
                     );
                     Toast.makeText(context, "Added to cart", Toast.LENGTH_SHORT).show();
                     bottomSheetDialog.dismiss();

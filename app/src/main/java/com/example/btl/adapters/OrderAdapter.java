@@ -11,28 +11,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
-import com.example.btl.models.CartModel;
+import com.example.btl.models.OrderModel;
 
 import java.util.List;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
 
     public interface OnCartItemListener {
         void onQuantityChanged(int position, int newQuantity);
         void onRemove(int position);
     }
 
-    private final List<CartModel> list;
+    private final List<OrderModel> list;
     private final OnCartItemListener listener;
 
-    public CartAdapter(List<CartModel> list, OnCartItemListener listener) {
+    public OrderAdapter(List<OrderModel> list, OnCartItemListener listener) {
         this.list = list;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public CartAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public OrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
                 LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.current_order_item, parent, false)
@@ -40,8 +40,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartAdapter.ViewHolder holder, int position) {
-        CartModel item = list.get(position);
+    public void onBindViewHolder(@NonNull OrderAdapter.ViewHolder holder, int position) {
+        OrderModel item = list.get(position);
         holder.imageView.setImageResource(item.getImage());
         holder.name.setText(item.getName());
         holder.rating.setText(item.getRating());

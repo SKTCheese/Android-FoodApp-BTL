@@ -12,21 +12,16 @@
         tools:layout="@layout/home_fragment" />
 
     <fragment
-        android:id="@+id/nav_daily_meal"
-        android:name="com.example.btl.dailymeal.DailyMealFragment"
-        android:label="Daily Meal"
+        android:id="@+id/nav_menu"
+        android:name="com.example.btl.menu.MenuFragment"
+        android:label="Menu"
         tools:layout="@layout/menu_fragment" />
 
-    <fragment
-        android:id="@+id/nav_favorite"
-        android:name="com.example.btl.favorite.FavoriteFragment"
-        android:label="Favorite"
-        tools:layout="@layout/favorite_fragment" />
 
     <fragment
-        android:id="@+id/nav_my_cart"
-        android:name="com.example.btl.home.MyCartFragment"
-        android:label="My Cart"
+        android:id="@+id/nav_current_order"
+        android:name="com.example.btl.home.CurrentOrderFragment"
+        android:label="Current Order"
         tools:layout="@layout/fragment_current_order" />
 
 

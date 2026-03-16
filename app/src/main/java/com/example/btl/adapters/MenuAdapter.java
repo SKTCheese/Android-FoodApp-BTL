@@ -11,18 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.btl.DetailedDailyMealActivity;
+import com.example.btl.DetailedMenuActivity;
 import com.example.btl.R;
-import com.example.btl.models.DailyMealModel;
+import com.example.btl.models.MenuModel;
 
 import java.util.List;
 
-public class DailyMealAdapter extends RecyclerView.Adapter<DailyMealAdapter.ViewHolder> {
+public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     Context context;
-    List<DailyMealModel> list;
+    List<MenuModel> list;
 
-    public DailyMealAdapter(Context context, List<DailyMealModel> list) {
+    public MenuAdapter(Context context, List<MenuModel> list) {
         this.context = context;
         this.list = list;
     }
@@ -48,7 +48,7 @@ public class DailyMealAdapter extends RecyclerView.Adapter<DailyMealAdapter.View
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, DetailedDailyMealActivity.class);
+                Intent intent = new Intent(context, DetailedMenuActivity.class);
                 intent.putExtra("type", list.get(position).getType());
                 context.startActivity(intent);
 

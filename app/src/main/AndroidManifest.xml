@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BTL">
         <activity
-            android:name=".DetailedDailyMealActivity"
+            android:name=".DetailedMenuActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

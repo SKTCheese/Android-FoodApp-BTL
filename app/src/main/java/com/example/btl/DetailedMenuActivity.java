@@ -7,17 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.btl.adapters.DetailedDailyAdapter;
-import com.example.btl.models.DetailedDailyModel;
+import com.example.btl.adapters.DetailedMenuAdapter;
+import com.example.btl.models.DetailedMenuModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailedDailyMealActivity extends AppCompatActivity {
+public class DetailedMenuActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    List<DetailedDailyModel> detailedDailyModelList;
-    DetailedDailyAdapter dailyAdapter;
+    List<DetailedMenuModel> detailedDailyModelList;
+    DetailedMenuAdapter dailyAdapter;
     ImageView imageView;
 
     @Override
@@ -32,12 +32,12 @@ public class DetailedDailyMealActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         detailedDailyModelList = new ArrayList<>();
-        dailyAdapter = new DetailedDailyAdapter(detailedDailyModelList);
+        dailyAdapter = new DetailedMenuAdapter(detailedDailyModelList);
         recyclerView.setAdapter(dailyAdapter);
 
         if (type != null && type.equalsIgnoreCase("breakfast")) {
 
-            detailedDailyModelList.add(new DetailedDailyModel(
+            detailedDailyModelList.add(new DetailedMenuModel(
                     R.drawable.fav1,
                     "Breakfast 1",
                     "description",
@@ -46,7 +46,7 @@ public class DetailedDailyMealActivity extends AppCompatActivity {
                     "10:00 - 21:00"
             ));
 
-            detailedDailyModelList.add(new DetailedDailyModel(
+            detailedDailyModelList.add(new DetailedMenuModel(
                     R.drawable.fav2,
                     "Breakfast 2",
                     "description",
@@ -55,7 +55,7 @@ public class DetailedDailyMealActivity extends AppCompatActivity {
                     "10:00 - 21:00"
             ));
 
-            detailedDailyModelList.add(new DetailedDailyModel(
+            detailedDailyModelList.add(new DetailedMenuModel(
                     R.drawable.fav3,
                     "Breakfast 3",
                     "description",
@@ -71,7 +71,7 @@ public class DetailedDailyMealActivity extends AppCompatActivity {
 
             imageView.setImageResource(R.drawable.sweets);
 
-            detailedDailyModelList.add(new DetailedDailyModel(
+            detailedDailyModelList.add(new DetailedMenuModel(
                     R.drawable.s1,
                     "Sweets 1",
                     "description",
@@ -80,7 +80,7 @@ public class DetailedDailyMealActivity extends AppCompatActivity {
                     "10:00 - 21:00"
             ));
 
-            detailedDailyModelList.add(new DetailedDailyModel(
+            detailedDailyModelList.add(new DetailedMenuModel(
                     R.drawable.s2,
                     "Sweets 2",
                     "description",
@@ -89,7 +89,7 @@ public class DetailedDailyMealActivity extends AppCompatActivity {
                     "10:00 - 21:00"
             ));
 
-            detailedDailyModelList.add(new DetailedDailyModel(
+            detailedDailyModelList.add(new DetailedMenuModel(
                     R.drawable.s3,
                     "Sweets 3",
                     "description",
