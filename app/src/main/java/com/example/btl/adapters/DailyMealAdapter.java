@@ -32,7 +32,7 @@ public class DailyMealAdapter extends RecyclerView.Adapter<DailyMealAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
                 LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.daily_meal_item, parent, false)
+                        .inflate(R.layout.menu_item, parent, false)
         );
     }
 

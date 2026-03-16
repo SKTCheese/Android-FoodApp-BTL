@@ -10,19 +10,15 @@ tools:showIn="navigation_view">
         android:title="Home" />
 
     <item
-        android:id="@+id/nav_daily_meal"
+        android:id="@+id/nav_menu"
         android:icon="@drawable/outline_fork_spoon_24"
-        android:title="Daily Meal" />
+        android:title="Menu" />
+
 
     <item
-        android:id="@+id/nav_favorite"
-        android:icon="@drawable/outline_ecg_heart_24"
-        android:title="Favorite" />
-
-    <item
-        android:id="@+id/nav_my_cart"
+        android:id="@+id/nav_current_order"
         android:icon="@drawable/outline_add_shopping_cart_24"
-        android:title="My Cart" />
+        android:title="Current Order" />
 
 
 </group>

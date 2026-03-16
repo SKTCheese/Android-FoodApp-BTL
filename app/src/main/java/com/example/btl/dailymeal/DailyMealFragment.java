@@ -29,7 +29,7 @@ public class DailyMealFragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.daily_meal_fragment, container, false);
+        View root = inflater.inflate(R.layout.menu_fragment, container, false);
 
         recyclerView = root.findViewById(R.id.daily_meal_rec);
         recyclerView.setLayoutManager (new LinearLayoutManager(getContext()));

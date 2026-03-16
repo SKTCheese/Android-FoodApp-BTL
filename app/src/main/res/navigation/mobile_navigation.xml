@@ -15,7 +15,7 @@
         android:id="@+id/nav_daily_meal"
         android:name="com.example.btl.dailymeal.DailyMealFragment"
         android:label="Daily Meal"
-        tools:layout="@layout/daily_meal_fragment" />
+        tools:layout="@layout/menu_fragment" />
 
     <fragment
         android:id="@+id/nav_favorite"
@@ -27,7 +27,7 @@
         android:id="@+id/nav_my_cart"
         android:name="com.example.btl.home.MyCartFragment"
         android:label="My Cart"
-        tools:layout="@layout/fragment_my_cart" />
+        tools:layout="@layout/fragment_current_order" />
 
 
 </navigation>

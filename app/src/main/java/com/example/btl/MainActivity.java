@@ -33,9 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
-                R.id.nav_daily_meal,
-                R.id.nav_favorite,
-                R.id.nav_my_cart
+                R.id.nav_menu,
+                R.id.nav_current_order
         ).setDrawerLayout(drawerLayout).build();
 
         NavigationUI.setupActionBarWithNavController(

@@ -38,7 +38,7 @@ public class MyCartFragment extends Fragment implements CartAdapter.OnCartItemLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_my_cart, container, false);
+        View view = inflater.inflate(R.layout.fragment_current_order, container, false);
 
         recyclerView = view.findViewById(R.id.cart_rec);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

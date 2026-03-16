@@ -26,7 +26,7 @@ public class DetailedDailyAdapter extends RecyclerView.Adapter<DetailedDailyAdap
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
                 LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.detailed_daily_meal_item, parent, false)
+                        .inflate(R.layout.detailed_menu_item, parent, false)
         );
     }
 
