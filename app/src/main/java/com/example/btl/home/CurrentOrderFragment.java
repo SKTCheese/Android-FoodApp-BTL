@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,10 +23,19 @@ import com.example.btl.SelectTableActivity;
 import com.example.btl.adapters.OrderAdapter;
 import com.example.btl.models.OrderModel;
 import com.example.btl.storage.CartStorage;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,25 +106,64 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
                 .show();
     }
 
+
     private void createOrder() {
-        // Logic gửi dữ liệu lên web quản trị sẽ xử lý ở đây sau
-        
-        // 1. Hiển thị thông báo
-        Toast.makeText(getContext(), "Created this order", Toast.LENGTH_SHORT).show();
+        // 1. Lấy thông tin bàn
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("app_data", Context.MODE_PRIVATE);
+        String tableCode = sharedPreferences.getString("selected_table", "Unknown");
 
-        // 2. Xóa trống toàn bộ item
-        CartStorage.clearCart(requireContext());
-        list.clear();
-        cartAdapter.notifyDataSetChanged();
-        updateTotal();
+        // 2. Lấy thông tin nhân viên (Sử dụng Firebase Auth nếu đã có, hoặc từ SharedPreferences)
+        String staffEmail = "Unknown Staff";
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null && currentUser.getEmail() != null) {
+            staffEmail = currentUser.getEmail();
+        } else {
+            // Backup nếu chưa dùng Firebase Auth thì lấy từ SharedPreferences bạn đã lưu lúc Login
+            staffEmail = sharedPreferences.getString("user_email", "staff@restaurant.com");
+        }
 
-        // 3. Chuyển về màn hình chọn bàn (SelectTableActivity)
-        if (getActivity() != null) {
-            Intent intent = new Intent(getActivity(), SelectTableActivity.class);
-            // Flag này giúp dọn dẹp các Activity phía trên SelectTableActivity nếu nó đã tồn tại
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            getActivity().finish(); // Đóng MainActivity hiện tại
+        // 3. Tham chiếu đến Firebase Database
+        DatabaseReference databaseReference =
+                FirebaseDatabase.getInstance("https://btl-staff-order-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                        .getReference("Orders");
+
+        String orderId = databaseReference.push().getKey();
+
+        // 4. Đóng gói dữ liệu (Thêm staffEmail để quản lý)
+        Map<String, Object> orderData = new HashMap<>();
+        orderData.put("tableCode", tableCode);
+        orderData.put("staffEmail", staffEmail); // <--- THÊM DÒNG NÀY ĐỂ TRUY VẾT
+        orderData.put("totalPrice", totalText.getText().toString());
+        orderData.put("timestamp", ServerValue.TIMESTAMP);
+        orderData.put("status", "Pending");
+        orderData.put("items", list);
+
+        // 5. Gửi lên Firebase
+        if (orderId != null) {
+            databaseReference.child(orderId).setValue(orderData)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), "Order Created Successfully!", Toast.LENGTH_SHORT).show();
+
+                                CartStorage.clearCart(requireContext());
+                                list.clear();
+                                cartAdapter.notifyDataSetChanged();
+                                updateTotal();
+
+                                if (getActivity() != null) {
+                                    Intent intent = new Intent(getActivity(), SelectTableActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                }
+                            } else {
+                                String errorMsg = task.getException() != null ? task.getException().getMessage() : "Unknown error";
+                                Toast.makeText(getContext(), "Error: " + errorMsg, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
         }
     }
 
@@ -144,7 +193,6 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
             cartAdapter.notifyDataSetChanged();
             updateTotal();
 
-            // Cập nhật lại mã bàn khi quay lại fragment
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("app_data", Context.MODE_PRIVATE);
             String tableCode = sharedPreferences.getString("selected_table", "B01");
             if (tvSelectedTable != null) {
@@ -181,7 +229,6 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
     }
 
     private static String formatMoney(double value) {
-        // Nếu là số nguyên thì hiển thị gọn (vd 180 thay vì 180.00)
         if (Math.abs(value - Math.rint(value)) < 1e-9) {
             return String.valueOf((long) Math.rint(value));
         }

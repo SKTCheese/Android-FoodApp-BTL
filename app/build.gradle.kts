@@ -1,12 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "com.example.btl"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.btl"
@@ -40,6 +39,12 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
+    
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-auth") // <--- THÊM DÒNG NÀY
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

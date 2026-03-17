@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "715028874765",
+    "project_id": "btl-staff-order",
+    "storage_bucket": "btl-staff-order.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:715028874765:android:fc86178d61461a93a4b744",
+        "android_client_info": {
+          "package_name": "com.example.btl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnGdVVnMNcCh5snEsoM-Mr3RkYPm9DF_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
