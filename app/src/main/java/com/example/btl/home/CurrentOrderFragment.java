@@ -1,18 +1,24 @@
 package com.example.btl.home;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
+import com.example.btl.SelectTableActivity;
 import com.example.btl.adapters.OrderAdapter;
 import com.example.btl.models.OrderModel;
 import com.example.btl.storage.CartStorage;
@@ -30,6 +36,7 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
     RecyclerView recyclerView;
     TextView totalText;
     TextView tvSelectedTable;
+    Button btnCreateOrder;
 
     private static final Pattern PRICE_PATTERN = Pattern.compile("(\\d+(?:\\.\\d+)?)");
 
@@ -47,6 +54,7 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         totalText = view.findViewById(R.id.textView3);
         tvSelectedTable = view.findViewById(R.id.tvSelectedTable);
+        btnCreateOrder = view.findViewById(R.id.btnCreateOrder);
 
         // Hiển thị mã bàn từ SharedPreferences
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("app_data", Context.MODE_PRIVATE);
@@ -60,7 +68,54 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
         cartAdapter = new OrderAdapter(list, this);
         recyclerView.setAdapter(cartAdapter);
 
+        btnCreateOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (list.isEmpty()) {
+                    Toast.makeText(getContext(), "Your order is empty!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                showConfirmDialog();
+            }
+        });
+
         return view;
+    }
+
+    private void showConfirmDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Confirm Order")
+                .setMessage("Are you sure you want to create this order?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        createOrder();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    private void createOrder() {
+        // Logic gửi dữ liệu lên web quản trị sẽ xử lý ở đây sau
+        
+        // 1. Hiển thị thông báo
+        Toast.makeText(getContext(), "Created this order", Toast.LENGTH_SHORT).show();
+
+        // 2. Xóa trống toàn bộ item
+        CartStorage.clearCart(requireContext());
+        list.clear();
+        cartAdapter.notifyDataSetChanged();
+        updateTotal();
+
+        // 3. Chuyển về màn hình chọn bàn (SelectTableActivity)
+        if (getActivity() != null) {
+            Intent intent = new Intent(getActivity(), SelectTableActivity.class);
+            // Flag này giúp dọn dẹp các Activity phía trên SelectTableActivity nếu nó đã tồn tại
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            getActivity().finish(); // Đóng MainActivity hiện tại
+        }
     }
 
     @Override
