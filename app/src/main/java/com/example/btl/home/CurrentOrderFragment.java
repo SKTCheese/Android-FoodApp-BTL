@@ -66,7 +66,6 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
         tvSelectedTable = view.findViewById(R.id.tvSelectedTable);
         btnCreateOrder = view.findViewById(R.id.btnCreateOrder);
 
-        // Hiển thị mã bàn từ SharedPreferences
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("app_data", Context.MODE_PRIVATE);
         String tableCode = sharedPreferences.getString("selected_table", "B01");
         tvSelectedTable.setText("Table: " + tableCode);
@@ -108,43 +107,39 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
 
 
     private void createOrder() {
-        // 1. Lấy thông tin bàn
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("app_data", Context.MODE_PRIVATE);
         String tableCode = sharedPreferences.getString("selected_table", "Unknown");
 
-        // 2. Lấy thông tin nhân viên (Sử dụng Firebase Auth nếu đã có, hoặc từ SharedPreferences)
         String staffEmail = "Unknown Staff";
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null && currentUser.getEmail() != null) {
             staffEmail = currentUser.getEmail();
-        } else {
-            // Backup nếu chưa dùng Firebase Auth thì lấy từ SharedPreferences bạn đã lưu lúc Login
-            staffEmail = sharedPreferences.getString("user_email", "staff@restaurant.com");
         }
 
-        // 3. Tham chiếu đến Firebase Database
-        DatabaseReference databaseReference =
-                FirebaseDatabase.getInstance("https://btl-staff-order-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                        .getReference("Orders");
+        // Tham chiếu đến Firebase
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://btl-staff-order-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        DatabaseReference orderRef = db.getReference("Orders");
+        DatabaseReference tableRef = db.getReference("Tables").child(tableCode);
 
-        String orderId = databaseReference.push().getKey();
+        String orderId = orderRef.push().getKey();
 
-        // 4. Đóng gói dữ liệu (Thêm staffEmail để quản lý)
         Map<String, Object> orderData = new HashMap<>();
         orderData.put("tableCode", tableCode);
-        orderData.put("staffEmail", staffEmail); // <--- THÊM DÒNG NÀY ĐỂ TRUY VẾT
+        orderData.put("staffEmail", staffEmail);
         orderData.put("totalPrice", totalText.getText().toString());
         orderData.put("timestamp", ServerValue.TIMESTAMP);
         orderData.put("status", "Pending");
         orderData.put("items", list);
 
-        // 5. Gửi lên Firebase
         if (orderId != null) {
-            databaseReference.child(orderId).setValue(orderData)
+            orderRef.child(orderId).setValue(orderData)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
+                                // CẬP NHẬT TRẠNG THÁI BÀN THÀNH OCCUPIED
+                                tableRef.child("status").setValue("Occupied");
+
                                 Toast.makeText(getContext(), "Order Created Successfully!", Toast.LENGTH_SHORT).show();
 
                                 CartStorage.clearCart(requireContext());
@@ -159,8 +154,7 @@ public class CurrentOrderFragment extends Fragment implements OrderAdapter.OnCar
                                     getActivity().finish();
                                 }
                             } else {
-                                String errorMsg = task.getException() != null ? task.getException().getMessage() : "Unknown error";
-                                Toast.makeText(getContext(), "Error: " + errorMsg, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });
